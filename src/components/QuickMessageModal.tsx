@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { X, Copy, Check, ExternalLink, Send, Sparkles } from 'lucide-react';
 import { Client, OutreachTemplate } from '@/lib/types';
+import { supabase } from '@/lib/supabase';
 
 interface QuickMessageModalProps {
   isOpen: boolean;
@@ -59,6 +60,19 @@ export function QuickMessageModal({
         `Outreach message sent: "${customizedMessage.slice(0, 100)}..."`,
         'dm_sent'
       );
+
+      // Increment template usage count
+      if (selectedTemplateId) {
+        const selectedTmpl = templates.find((t) => t.id === selectedTemplateId);
+        const currentCount = selectedTmpl?.times_used || 0;
+        await supabase
+          .from('outreach_templates')
+          .update({
+            times_used: currentCount + 1,
+            last_used_at: new Date().toISOString(),
+          })
+          .eq('id', selectedTemplateId);
+      }
     } catch (err) {
       console.error('Failed to copy message:', err);
     }

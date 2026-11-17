@@ -81,6 +81,19 @@ export interface OutreachTemplate {
   title: string;
   channel: string;
   content: string;
+  subject_line?: string;
+  cadence_step?: string;
+  target_niche?: string;
+  tone?: string;
+  tags?: string[];
+  times_used?: number;
+  replies_count?: number;
+  meetings_count?: number;
+  deals_won_count?: number;
+  revenue_generated?: number;
+  is_active?: boolean;
+  notes?: string;
+  last_used_at?: string;
   created_at?: string;
 }
 
