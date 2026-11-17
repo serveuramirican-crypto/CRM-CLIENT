@@ -436,8 +436,9 @@ export default function DashboardPage() {
                 <tr>
                   <th className="py-3 px-4">Business & Contact</th>
                   <th className="py-3 px-4">Social / Links</th>
-                  <th className="py-3 px-4">Status</th>
                   <th className="py-3 px-4">Channel</th>
+                  <th className="py-3 px-4">Niche / Category</th>
+                  <th className="py-3 px-4">Status</th>
                   <th className="py-3 px-4">Deal Value</th>
                   <th className="py-3 px-4">Priority</th>
                   <th className="py-3 px-4">Next Follow-Up</th>
@@ -488,11 +489,20 @@ export default function DashboardPage() {
                           <span className="text-slate-600 italic">No links</span>
                         )}
                       </td>
-                      <td className="py-3.5 px-4">
-                        <StatusBadge status={client.status} />
-                      </td>
                       <td className="py-3.5 px-4 text-slate-300">
                         {client.outreach_channel || 'Instagram'}
+                      </td>
+                      <td className="py-3.5 px-4">
+                        {client.niche ? (
+                          <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-950/60 text-indigo-300 border border-indigo-800/40">
+                            {client.niche}
+                          </span>
+                        ) : (
+                          <span className="text-slate-600 italic text-[11px]">—</span>
+                        )}
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <StatusBadge status={client.status} />
                       </td>
                       <td className="py-3.5 px-4 font-semibold text-emerald-400">
                         {client.estimated_value ? formatCurrency(client.estimated_value) : '$0'}

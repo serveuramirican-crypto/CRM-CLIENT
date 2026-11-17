@@ -113,6 +113,7 @@ export default function ClientsPage() {
       'Client Name',
       'Email',
       'Phone',
+      'Niche / Category',
       'Status',
       'Channel',
       'Priority',
@@ -126,6 +127,7 @@ export default function ClientsPage() {
       `"${c.client_name || ''}"`,
       `"${c.email || ''}"`,
       `"${c.phone || ''}"`,
+      `"${c.niche || ''}"`,
       `"${c.status || ''}"`,
       `"${c.outreach_channel || ''}"`,
       `"${c.priority || ''}"`,
@@ -254,6 +256,7 @@ export default function ClientsPage() {
                 <th className="py-3 px-4">Business & Contact</th>
                 <th className="py-3 px-4">Direct Social Links</th>
                 <th className="py-3 px-4">Channel</th>
+                <th className="py-3 px-4">Niche / Category</th>
                 <th className="py-3 px-4">Status</th>
                 <th className="py-3 px-4">Priority</th>
                 <th className="py-3 px-4">Deal Value</th>
@@ -264,13 +267,13 @@ export default function ClientsPage() {
             <tbody className="divide-y divide-slate-800/80">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-slate-500">
+                  <td colSpan={9} className="py-12 text-center text-slate-500">
                     Loading clients...
                   </td>
                 </tr>
               ) : filteredClients.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-slate-500">
+                  <td colSpan={9} className="py-12 text-center text-slate-500">
                     No clients found matching your search.
                   </td>
                 </tr>
@@ -344,6 +347,17 @@ export default function ClientsPage() {
                       {/* Channel */}
                       <td className="py-3.5 px-4 text-slate-300 font-medium">
                         {client.outreach_channel || 'Instagram'}
+                      </td>
+
+                      {/* Niche / Category */}
+                      <td className="py-3.5 px-4">
+                        {client.niche ? (
+                          <span className="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-indigo-950/60 text-indigo-300 border border-indigo-800/40">
+                            {client.niche}
+                          </span>
+                        ) : (
+                          <span className="text-slate-600 italic text-[11px]">—</span>
+                        )}
                       </td>
 
                       {/* Status */}
