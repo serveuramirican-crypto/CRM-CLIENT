@@ -152,9 +152,9 @@ export function ClientModal({
         custom_field_values: customValues,
       });
       onClose();
-    } catch (err) {
+    } catch (err: any) {
       console.error('Failed to save client:', err);
-      alert('Error saving client. Please try again.');
+      alert(`Error saving client: ${err?.message || err?.error_description || 'Please try again.'}`);
     } finally {
       setIsSubmitting(false);
     }
