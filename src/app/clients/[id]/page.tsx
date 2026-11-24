@@ -164,10 +164,12 @@ export default function ClientDetailPage() {
     );
   }
 
-  const igLink = client.platform_links?.find(
-    (l) => l.platform.toLowerCase() === 'instagram'
-  );
-  const primaryLink = igLink || client.platform_links?.[0];
+  const igLink = Array.isArray(client.platform_links)
+    ? client.platform_links.find(
+        (l) => l?.platform?.toLowerCase() === 'instagram'
+      )
+    : undefined;
+  const primaryLink = igLink || (Array.isArray(client.platform_links) ? client.platform_links[0] : undefined);
 
   return (
     <div className="space-y-6">
@@ -246,17 +248,17 @@ export default function ClientDetailPage() {
             </div>
 
             {/* Platform links */}
-            {client.platform_links && client.platform_links.length > 0 && (
+            {Array.isArray(client.platform_links) && client.platform_links.length > 0 && (
               <div className="flex flex-wrap items-center gap-2 pt-2">
                 {client.platform_links.map((link, idx) => (
                   <a
                     key={idx}
-                    href={link.url.startsWith('http') ? link.url : `https://${link.url}`}
+                    href={link.url && link.url.startsWith('http') ? link.url : `https://${link.url || ''}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-800 hover:bg-slate-700 text-indigo-300 text-xs font-semibold rounded-lg border border-slate-700 transition-colors shadow-sm"
                   >
-                    <span>{link.platform}</span>
+                    <span>{link.platform || 'Link'}</span>
                     <ExternalLink className="w-3 h-3" />
                   </a>
                 ))}

@@ -26,7 +26,17 @@ export function QuickMessageModal({
   const [copied, setCopied] = useState(false);
   const [customizedMessage, setCustomizedMessage] = useState('');
 
+  const formatTemplate = (text: string) => {
+    if (!client) return;
+    const formatted = text
+      .replace(/\{\{client_name\}\}/g, client.client_name || client.business_name || '')
+      .replace(/\{\{business_name\}\}/g, client.business_name || '')
+      .replace(/\{\{niche\}\}/g, client.niche || '');
+    setCustomizedMessage(formatted);
+  };
+
   React.useEffect(() => {
+    if (!isOpen || !client) return;
     if (templates.length > 0) {
       const initial = templates.find((t) => t.id === selectedTemplateId) || templates[0];
       if (initial) {
@@ -34,15 +44,6 @@ export function QuickMessageModal({
       }
     }
   }, [templates, selectedTemplateId, client, isOpen]);
-
-  if (!isOpen) return null;
-
-  const formatTemplate = (text: string) => {
-    const formatted = text
-      .replace(/\{\{client_name\}\}/g, client.client_name || client.business_name)
-      .replace(/\{\{business_name\}\}/g, client.business_name);
-    setCustomizedMessage(formatted);
-  };
 
   const handleTemplateSelect = (tmpl: OutreachTemplate) => {
     setSelectedTemplateId(tmpl.id);
@@ -79,10 +80,12 @@ export function QuickMessageModal({
   };
 
   // Find direct link (IG, LinkedIn, etc.)
-  const igLink = client.platform_links?.find(
+  const igLink = client?.platform_links?.find(
     (l) => l.platform.toLowerCase() === 'instagram'
   );
-  const primaryLink = igLink || client.platform_links?.[0];
+  const primaryLink = igLink || client?.platform_links?.[0];
+
+  if (!isOpen || !client) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">

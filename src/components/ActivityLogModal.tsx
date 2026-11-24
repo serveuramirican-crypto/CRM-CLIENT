@@ -65,8 +65,6 @@ export function ActivityLogModal({
     }
   }, [isOpen, client.id]);
 
-  if (!isOpen) return null;
-
   const handleCreateActivity = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) return;
@@ -103,6 +101,8 @@ export function ActivityLogModal({
       setSaving(false);
     }
   };
+
+  if (!isOpen || !client) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm">

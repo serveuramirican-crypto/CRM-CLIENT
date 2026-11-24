@@ -112,8 +112,6 @@ export function ClientModal({
     }
   }, [client, isOpen]);
 
-  if (!isOpen) return null;
-
   const handleAddPlatform = () => {
     setPlatformLinks([...platformLinks, { platform: 'Instagram', url: '' }]);
   };
@@ -159,6 +157,8 @@ export function ClientModal({
       setIsSubmitting(false);
     }
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm overflow-y-auto">
