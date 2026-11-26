@@ -11,6 +11,7 @@ import {
   Send,
   Sparkles,
   Workflow,
+  StickyNote,
 } from 'lucide-react';
 
 export function Navbar() {
@@ -20,6 +21,7 @@ export function Navbar() {
     { href: '/', label: 'Dashboard & Pipeline', icon: LayoutDashboard },
     { href: '/cadence', label: 'Cadence Map', icon: Workflow },
     { href: '/clients', label: 'All Clients', icon: Users },
+    { href: '/notes', label: 'Outreach Notes', icon: StickyNote },
     { href: '/custom-fields', label: 'Custom Fields', icon: Sliders },
     { href: '/templates', label: 'Message Templates', icon: FileText },
   ];
