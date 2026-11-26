@@ -12,18 +12,20 @@ import {
   Sparkles,
   Workflow,
   StickyNote,
+  ClipboardCheck,
 } from 'lucide-react';
 
 export function Navbar() {
   const pathname = usePathname();
 
   const navLinks = [
-    { href: '/', label: 'Dashboard & Pipeline', icon: LayoutDashboard },
+    { href: '/', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/cadence', label: 'Cadence Map', icon: Workflow },
     { href: '/clients', label: 'All Clients', icon: Users },
     { href: '/notes', label: 'Outreach Notes', icon: StickyNote },
+    { href: '/analysis', label: 'Business Analysis', icon: ClipboardCheck },
     { href: '/custom-fields', label: 'Custom Fields', icon: Sliders },
-    { href: '/templates', label: 'Message Templates', icon: FileText },
+    { href: '/templates', label: 'Templates', icon: FileText },
   ];
 
   return (
@@ -48,7 +50,7 @@ export function Navbar() {
           </div>
 
           {/* Navigation Links */}
-          <nav className="flex items-center space-x-1 sm:space-x-2">
+          <nav className="flex items-center space-x-1 overflow-x-auto no-scrollbar">
             {navLinks.map((item) => {
               const Icon = item.icon;
               const isActive =
@@ -60,14 +62,14 @@ export function Navbar() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-xs lg:text-sm font-medium whitespace-nowrap transition-all ${
                     isActive
                       ? 'bg-indigo-600/15 text-indigo-300 border border-indigo-500/30 shadow-inner'
                       : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
-                  <span className="hidden sm:inline">{item.label}</span>
+                  <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-indigo-400' : 'text-slate-500'}`} />
+                  <span className="hidden md:inline">{item.label}</span>
                 </Link>
               );
             })}

@@ -13,6 +13,8 @@ import {
   Calendar,
   Layers,
   Sparkles,
+  Maximize2,
+  Check,
 } from 'lucide-react';
 import { Client, CustomField, PlatformLink, ClientStatus, Priority, OutreachChannel } from '@/lib/types';
 import { CustomFieldRenderer } from './CustomFieldRenderer';
@@ -71,6 +73,7 @@ export function ClientModal({
   const [notes, setNotes] = useState('');
   const [customValues, setCustomValues] = useState<Record<string, any>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isNotesExpanded, setIsNotesExpanded] = useState(false);
 
   useEffect(() => {
     if (client) {
@@ -446,9 +449,20 @@ export function ClientModal({
 
           {/* General Notes */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">
-              Outreach Notes / Strategy
-            </label>
+            <div className="flex items-center justify-between mb-1.5">
+              <label className="block text-xs font-semibold text-slate-300 uppercase tracking-wider">
+                Outreach Notes / Strategy
+              </label>
+              <button
+                type="button"
+                onClick={() => setIsNotesExpanded(true)}
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-indigo-400 hover:text-indigo-300 bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/20 px-2.5 py-1 rounded-md transition-colors"
+                title="Open large editor pop-up"
+              >
+                <Maximize2 className="w-3.5 h-3.5" />
+                Expand Editor
+              </button>
+            </div>
             <textarea
               rows={3}
               placeholder="e.g. Needs higher conversion on Shopify, responded positively to second story reply..."
@@ -478,6 +492,68 @@ export function ClientModal({
           </div>
         </form>
       </div>
+
+      {/* Expanded Notes Pop-up Editor */}
+      {isNotesExpanded && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+          onClick={() => setIsNotesExpanded(false)}
+        >
+          <div
+            className="bg-slate-900 border border-indigo-500/40 rounded-2xl w-full max-w-4xl h-[80vh] flex flex-col shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/95">
+              <div>
+                <h3 className="text-base font-bold text-white flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-indigo-400" />
+                  Outreach Notes / Strategy
+                  {businessName && (
+                    <span className="text-xs font-medium text-indigo-300 bg-indigo-500/15 border border-indigo-500/30 px-2 py-0.5 rounded-full">
+                      {businessName}
+                    </span>
+                  )}
+                </h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  Large writing workspace — changes sync automatically with the client form.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsNotesExpanded(false)}
+                className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                title="Close expanded editor"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="flex-1 p-6 flex flex-col min-h-0">
+              <textarea
+                autoFocus
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Write detailed outreach notes, client pain points, strategy, follow-up angles..."
+                className="flex-1 w-full p-4 bg-slate-950/90 border border-slate-700 rounded-xl text-slate-100 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              />
+            </div>
+
+            <div className="flex items-center justify-between px-6 py-4 border-t border-slate-800 bg-slate-900/95">
+              <span className="text-xs text-slate-400">
+                {notes.length} characters · {notes ? notes.split('\n').length : 0} lines
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsNotesExpanded(false)}
+                className="inline-flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-lg shadow-indigo-600/30 transition-all"
+              >
+                <Check className="w-4 h-4" />
+                Done
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
